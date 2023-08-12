@@ -7,4 +7,9 @@
             </div>
         </div>
     {% endif %}
+    {% if form_attribute.errors %}
+        <div class="text-danger">
+            {{ form_attribute.errors }}
+        </div>
+    {% endif %}
 </div>

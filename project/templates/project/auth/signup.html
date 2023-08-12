@@ -9,31 +9,31 @@
                 {% csrf_token %}
 
                 {#first name#}
-                {% include 'temp/registration_form_icon.html' with form_attribute=form.first_name icon_class="fas fa-user" %}
+                {% include 'temp/auth_form_input_helper.html' with form_attribute=form.first_name icon_class="fas fa-user" %}
 
                 {#last name#}
-                {% include 'temp/registration_form_icon.html' with form_attribute=form.last_name icon_class="fas fa-user" %}
+                {% include 'temp/auth_form_input_helper.html' with form_attribute=form.last_name icon_class="fas fa-user" %}
 
                 {#email#}
-                {% include 'temp/registration_form_icon.html' with form_attribute=form.email icon_class="fas fa-envelope" %}
+                {% include 'temp/auth_form_input_helper.html' with form_attribute=form.email icon_class="fas fa-envelope" %}
 
                 {#phone#}
-                {% include 'temp/registration_form_icon.html' with form_attribute=form.phone icon_class="fas fa-phone" %}
+                {% include 'temp/auth_form_input_helper.html' with form_attribute=form.phone icon_class="fas fa-phone" %}
 
                 {#password#}
-                {% include 'temp/registration_form_icon.html' with form_attribute=form.password icon_class="fas fa-lock" %}
+                {% include 'temp/auth_form_input_helper.html' with form_attribute=form.password icon_class="fas fa-lock" %}
 
                 {#blood_group#}
-                {% include 'temp/registration_form_icon.html' with form_attribute=form.blood_group icon_class=None %}
+                {% include 'temp/auth_form_input_helper.html' with form_attribute=form.blood_group icon_class=None %}
 
                 {#latitude#}
-                {% include 'temp/registration_form_icon.html' with form_attribute=form.lat icon_class="fas fa-map-marker-alt" %}
+                {% include 'temp/auth_form_input_helper.html' with form_attribute=form.lat icon_class="fas fa-map-marker-alt" %}
 
                 {#longitude#}
-                {% include 'temp/registration_form_icon.html' with form_attribute=form.long icon_class="fas fa-map-marker-alt" %}
+                {% include 'temp/auth_form_input_helper.html' with form_attribute=form.long icon_class="fas fa-map-marker-alt" %}
 
                 {#address#}
-                {% include 'temp/registration_form_icon.html' with form_attribute=form.address icon_class=None %}
+                {% include 'temp/auth_form_input_helper.html' with form_attribute=form.address icon_class=None %}
 
                 <div class="row">
                     <div class="col-8">
