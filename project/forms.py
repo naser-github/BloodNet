@@ -7,4 +7,5 @@ User = get_user_model()
 class RegistrationForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'phone', 'password', 'address', 'blood_group']
+        fields = ['first_name', 'last_name', 'email', 'phone', 'password', 'address', 'lat', 'long', 'blood_group',
+                  'lat', 'long']

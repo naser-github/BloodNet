@@ -1,0 +1,10 @@
+<div class="input-group mb-3">
+    {{ form_attribute }}
+    {% if icon_class %}
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="{{ icon_class }}"></span>
+            </div>
+        </div>
+    {% endif %}
+</div>
