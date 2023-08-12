@@ -1,0 +1,8 @@
+<div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        {% for path in paths %}
+            <li class="breadcrumb-item"><a href="{% url path.url %}">{{ path.name }}</a></li>
+        {% endfor %}
+    </ol>
+</div>

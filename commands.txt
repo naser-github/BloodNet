@@ -1,0 +1,8 @@
+python3 manage.py runserver                         #run the server locally
+django-admin startproject DjangoTest                #create a project
+python3 manage.py startapp <(submodule/app) name>     #create a submodule
+
+python3 manage.py makemigrations #this will create the migration file
+python3 manage.py migrate #this will create the tables in db
+
+python3 manage.py createsuperuser
