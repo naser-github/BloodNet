@@ -61,6 +61,14 @@ def logout_user(request):
     return redirect(reverse('login'))
 
 
+def profile(request):
+    breadcrumb = [{'url': 'profile', 'name': 'Profile'}]
+
+    return render(request, 'project/profile/index.html', {
+        'breadcrumb': breadcrumb
+    })
+
+
 def donor_list(request):
     breadcrumb = [{'url': 'donor-list', 'name': 'Donor List'}]
 
@@ -75,6 +83,10 @@ def donor_list(request):
     return render(request, 'project/donor/index.html', {
         'breadcrumb': breadcrumb, 'donors': donors
     })
+
+
+def news_feed(request):
+    return render(request, 'project/posts/index.html')
 
 
 # helper functions
