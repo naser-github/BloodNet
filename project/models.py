@@ -49,6 +49,8 @@ class CustomUser(AbstractUser):
     blood_group = models.ForeignKey(BloodGroup, on_delete=models.CASCADE, null=True)
     can_donate = models.BooleanField(default=True)
 
+    thana = models.ForeignKey(Thana, on_delete=models.CASCADE, null=True)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = UserManager()
@@ -57,3 +59,18 @@ class CustomUser(AbstractUser):
 class DonationHistory(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     date = models.DateField()
+
+
+class Hospital(models.Model):
+    name = models.CharField(unique=True, max_length=100)
+    address = models.TextField(null=True, max_length=300)
+    thana = models.ForeignKey(Thana, on_delete=models.CASCADE, null=True)
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=200)
+    body = models.TextField(max_length=2000)
+    contact_no = models.CharField(max_length=40)
+    is_published = models.BooleanField(default=True)
+
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, null=True)
