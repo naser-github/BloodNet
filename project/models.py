@@ -58,7 +58,10 @@ class CustomUser(AbstractUser):
 
 class DonationHistory(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    date = models.DateField()
+    donation_date = models.DateField()
+
+    # def __str__(self):
+    #     return self.date
 
 
 class Hospital(models.Model):

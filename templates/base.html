@@ -17,8 +17,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
     />
 
-    {% include 'partial/base/base_css.html' %}
     {% block page_css %}{% endblock %}
+    {% include 'partial/base/base_css.html' %}
 </head>
 <body class="hold-transition layout-top-nav">
 <div class="wrapper">
@@ -46,6 +46,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main content -->
         <div class="content">
             <div class="container">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h5><i class="icon fas fa-check"></i> Alert!</h5>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
                 {% block page_body %}{% endblock %}
             </div>
         </div>

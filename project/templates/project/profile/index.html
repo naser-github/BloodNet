@@ -2,7 +2,8 @@
 {% load static %}
 
 {% block page_css %}
-
+    {#    <link rel="stylesheet" href="{% static 'plugins/daterangepicker/daterangepicker.css' %}">#}
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 {% endblock %}
 
 {% block page_header %}
@@ -16,12 +17,16 @@
 
 
 {% block page_body %}
+
+
     <div class="row">
         <div class="col-md-3">
 
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h3 class="card-title">Naser</h3>
+                    <h3 class="card-title">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -29,14 +34,16 @@
                     <strong><i class="fas fa-file-medical mr-1"></i> Blood Group</strong>
 
                     <p class="text-muted">
-                        o+
+                        {{ user.blood_group }}
+
+                        <i class="fas fa-check-circle ml-2 {% if user.can_donate %}text-success{% else %}text-danger{% endif %}"></i>
                     </p>
 
                     <hr>
                     <strong><i class="fas fa-book mr-1"></i> Address</strong>
 
                     <p class="text-muted">
-                        B.S. in Computer Science from the University of Tennessee at Knoxville
+                        {{ user.address }}
                     </p>
 
                 </div>
@@ -53,96 +60,155 @@
                         <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a>
                         </li>
 
+
                         <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
                     </ul>
                 </div><!-- /.card-header -->
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="active tab-pane" id="activity">
-                            <!-- Post -->
-                            <div class="post">
-                                <div class="user-block">
-                                    <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg"
-                                         alt="user image">
-                                    <span class="username">
-                                      <a href="#">Jonathan Burke Jr.</a>
-                                      <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                    </span>
-                                    <span class="description">Shared publicly - 7:30 PM today</span>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Update your blood donation status</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <form method="post" action="{% url 'donation-status' %}">
+                                                {% csrf_token %}
+                                                <!-- Date -->
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <div class="form-group">
+                                                            <input type="text" name="donationDate" id="donationDate"
+                                                                   class="form-control"
+                                                                   placeholder="Select a date">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <button type="submit" class="btn btn-primary btn-block">
+                                                            Update
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
                                 </div>
-                                <!-- /.user-block -->
-                                <p>
-                                    Lorem ipsum represents a long-held tradition for designers,
-                                    typographers and the like. Some people hate it and argue for
-                                    its demise, but others ignore the hate as they create awesome
-                                    tools to help create filler text for everyone from bacon lovers
-                                    to Charlie Sheen fans.
-                                </p>
 
-                                <p>
-                                    <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                                    <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i>
-                                        Like</a>
-                                    <span class="float-right">
-                                      <a href="#" class="link-black text-sm">
-                                        <i class="far fa-comments mr-1"></i> Comments (5)
-                                      </a>
-                                    </span>
-                                </p>
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body table-responsive p-0" style="height: 300px;">
+                                            <table class="table table-head-fixed text-nowrap">
+                                                <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th colspan="3" class="text-right">Donation Date</th>
+                                                </tr>
+                                                <tbody>
+                                                {% for donation in donation_history %}
+                                                    <tr>
+                                                        <td>{{ forloop.counter0 }}</td>
+                                                        <td colspan="3"
+                                                            class="text-right">{{ donation.donation_date|date:"F d, Y" }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
 
-                                <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
+                                    </div>
+
+                                </div>
                             </div>
-                            <!-- /.post -->
                         </div>
                         <!-- /.tab-pane -->
 
 
                         <div class="tab-pane" id="settings">
-                            <form class="form-horizontal">
+                            <form method="post" action="{% url 'update-profile' %}">
+                                {% csrf_token %}
                                 <div class="form-group row">
-                                    <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                                    <label for="first_name" class="col-sm-2 col-form-label">First Name</label>
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                        <input type="text" name="first_name" class="form-control" id="first_name"
+                                               placeholder="First Name" required>
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
-                                    <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                                    <label for="last_name" class="col-sm-2 col-form-label">Last Name</label>
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                        <input type="text" name="last_name" class="form-control" id="last_name"
+                                               placeholder="Last Name" required>
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
-                                    <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
+                                    <label for="phone" class="col-sm-2 col-form-label">Phone</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                                        <input type="number" name="phone" class="form-control" id="phone"
+                                               placeholder="Phone" required>
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
-                                    <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
+                                    <label for="lat" class="col-sm-2 col-form-label">Latitude</label>
                                     <div class="col-sm-10">
-                                        <textarea class="form-control" id="inputExperience"
-                                                  placeholder="Experience"></textarea>
+                                        <input type="number" name="lat" class="form-control" id="lat"
+                                               placeholder="Latitude" required>
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
-                                    <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
+                                    <label for="long" class="col-sm-2 col-form-label">Longitude</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                                        <input type="number" name="long" class="form-control" id="long"
+                                               placeholder="Longitude" required>
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
-                                    <div class="offset-sm-2 col-sm-10">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> I agree to the <a href="#">terms and
-                                                conditions</a>
+                                    <label for="address" class="col-sm-2 col-form-label">Address</label>
+                                    <div class="col-sm-10">
+
+                                        <textarea name="address" class="form-control" rows="3" id="address"
+                                                  placeholder="Address" required></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="blood_group" class="col-sm-2 col-form-label">Blood Group</label>
+                                    <div class="col-sm-10">
+                                        <select name="blood_group" class="custom-select rounded-0" id="blood_group"
+                                                required>
+                                            <option disabled>select blood group</option>
+                                            {% for blood_group in blood_groups %}
+                                                <option value="{{ blood_group }}">{{ blood_group }}</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-10">
+                                        <div class="icheck-primary">
+                                            <input type="checkbox" id="can_donate" name="can_donate" value="can"
+                                                   />
+                                            <label for="can_donate">
+                                                Can donate blood
                                             </label>
                                         </div>
                                     </div>
                                 </div>
+
+
                                 <div class="form-group row">
                                     <div class="offset-sm-2 col-sm-10">
-                                        <button type="submit" class="btn btn-danger">Submit</button>
+                                        <button type="submit" class="btn btn-primary">Update</button>
                                     </div>
                                 </div>
                             </form>
@@ -160,5 +226,19 @@
 
 
 {% block page_script %}
+    {#    <script src="{% static 'plugins/daterangepicker/daterangepicker.js' %}"></script>#}
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    <script>
+
+
+        $(function () {
+
+            $('#donationDate').datepicker()
+        })
+
+    </script>
 {% endblock %}

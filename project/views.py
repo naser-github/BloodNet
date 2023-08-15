@@ -1,16 +1,18 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.urls import reverse
+from datetime import datetime
 
 # import forms here
 from .forms import RegistrationForm
 from .forms import LoginForm
 
 # import models here
-from .models import BloodGroup
+from .models import BloodGroup, DonationHistory
 
 User = get_user_model()
 
@@ -63,10 +65,50 @@ def logout_user(request):
 
 def profile(request):
     breadcrumb = [{'url': 'profile', 'name': 'Profile'}]
+    user = request.user
+    donation_history = DonationHistory.objects.filter(user_id=user).order_by('donation_date')
+    blood_groups = BloodGroup.objects.all()
 
     return render(request, 'project/profile/index.html', {
-        'breadcrumb': breadcrumb
+        'breadcrumb': breadcrumb,
+        'blood_groups': blood_groups,
+        'donation_history': donation_history,
+        'user': user
     })
+
+
+def update_profile(request):
+    print(request.POST)
+    user = request.user
+
+    blood_group = BloodGroup.objects.get(name=request.POST.get('blood_group'))
+
+    user.first_name = request.POST.get('first_name')
+    user.last_name = request.POST.get('last_name')
+    user.phone = request.POST.get('phone')
+    user.lat = request.POST.get('lat')
+    user.long = request.POST.get('long')
+    user.address = request.POST.get('address')
+    user.blood_group = blood_group
+    user.can_donate = True if request.POST.get('can_donate') is not None else False
+    user.save()
+
+    return redirect(reverse('profile'))
+
+
+def donation_status(request):
+    user = request.user
+
+    donation_date = datetime.strptime(request.POST.get('donationDate'), '%m/%d/%Y').strftime('%Y-%m-%d')
+    donate = DonationHistory(donation_date=donation_date, user=user)
+    donate.save()
+
+    user.can_donate = False
+    user.save()
+
+    messages.success(request, 'donation status changed')
+
+    return redirect(reverse('profile'))
 
 
 def donor_list(request):
