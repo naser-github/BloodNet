@@ -16,5 +16,8 @@ urlpatterns = [
     path('update-profile/', views.update_profile, name='update-profile'),
 
     path('donar-list/', views.donor_list, name='donor-list'),
+
     path('news-feed/', views.news_feed, name='news-feed'),
+    path('create-post/', views.create_post, name='create-post'),
+
 ]

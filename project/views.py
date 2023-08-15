@@ -131,6 +131,9 @@ def news_feed(request):
     return render(request, 'project/posts/index.html')
 
 
+def create_post(request):
+    return render(request, 'project/posts/create.html')
+
 # helper functions
 def format_registration_form():
     form = RegistrationForm()
