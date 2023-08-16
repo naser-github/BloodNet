@@ -127,7 +127,7 @@ def donor_list(request):
 
 
 def news_feed(request):
-    posts = Post.objects.all().order_by('created_at')
+    posts = Post.objects.all().order_by('-created_at')
 
     return render(request, 'project/posts/index.html', {
         'posts': posts
