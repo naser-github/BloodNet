@@ -62,6 +62,7 @@ def logout_user(request):
     return redirect(reverse('login'))
 
 
+@login_required
 def profile(request):
     breadcrumb = [{'url': 'profile', 'name': 'Profile'}]
     user = request.user
@@ -76,6 +77,7 @@ def profile(request):
     })
 
 
+@login_required
 def update_profile(request):
     print(request.POST)
     user = request.user
@@ -95,6 +97,7 @@ def update_profile(request):
     return redirect(reverse('profile'))
 
 
+@login_required
 def donation_status(request):
     user = request.user
 
@@ -110,6 +113,7 @@ def donation_status(request):
     return redirect(reverse('profile'))
 
 
+@login_required
 def donor_list(request):
     breadcrumb = [{'url': 'donor-list', 'name': 'Donor List'}]
 
@@ -126,6 +130,7 @@ def donor_list(request):
     })
 
 
+@login_required
 def news_feed(request):
     posts = Post.objects.all().order_by('-created_at')
 
@@ -134,6 +139,7 @@ def news_feed(request):
     })
 
 
+@login_required
 def create_post(request):
     breadcrumb = [{'url': 'create-post', 'name': 'Create Post'}]
 
