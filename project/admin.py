@@ -52,8 +52,7 @@ class HospitalAdmin(admin.ModelAdmin):
 #
 #     def blood_group_name(self, obj):
 #         return obj.blood_group.name
-#
-#
+
 
 admin.site.register(User)
 
