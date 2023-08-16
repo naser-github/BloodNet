@@ -3,11 +3,10 @@ from django.contrib.auth import get_user_model
 # Register your models here.
 from .models import BloodGroup
 
-from .models import Division
-from .models import District
-from .models import Thana
+from .models import Division, District, Thana, Hospital
 
 User = get_user_model()
+
 
 class BloodGroupAdmin(admin.ModelAdmin):
     list_display = ['name']
@@ -44,6 +43,10 @@ class ThanaAdmin(admin.ModelAdmin):
         return obj.district.division.name
 
 
+class HospitalAdmin(admin.ModelAdmin):
+    list_display = ['name', 'address', 'thana']
+
+
 # class UserAdmin(admin.ModelAdmin):
 #     list_display = ['first_name', 'last_name', 'email', 'phone', 'blood_group_name', 'can_donate', 'is_active']
 #
@@ -51,8 +54,10 @@ class ThanaAdmin(admin.ModelAdmin):
 #         return obj.blood_group.name
 #
 #
+
 admin.site.register(User)
 
+admin.site.register(Hospital, HospitalAdmin)
 admin.site.register(Thana, ThanaAdmin)
 admin.site.register(District, DistrictAdmin)
 admin.site.register(Division, DivisionAdmin)
