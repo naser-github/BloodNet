@@ -8,11 +8,10 @@ from django.urls import reverse
 from datetime import datetime
 
 # import forms here
-from .forms import RegistrationForm
-from .forms import LoginForm
+from .forms import RegistrationForm, LoginForm, CreatePostForm
 
 # import models here
-from .models import BloodGroup, DonationHistory
+from .models import BloodGroup, DonationHistory, Post
 
 User = get_user_model()
 
@@ -128,11 +127,31 @@ def donor_list(request):
 
 
 def news_feed(request):
-    return render(request, 'project/posts/index.html')
+    posts = Post.objects.all().order_by('created_at')
+
+    return render(request, 'project/posts/index.html', {
+        'posts': posts
+    })
 
 
 def create_post(request):
-    return render(request, 'project/posts/create.html')
+    breadcrumb = [{'url': 'create-post', 'name': 'Create Post'}]
+
+    if request.method == 'POST':
+        form = CreatePostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)  # Create a post object but don't save it to the database yet
+            post.user = request.user  # Assign the logged-in user as the author
+            post.save()  # Now save the post to the database
+            return redirect(reverse('news-feed'))
+    else:
+        form = CreatePostForm()
+
+    return render(request, 'project/posts/create.html', {
+        'breadcrumb': breadcrumb,
+        'form': form,
+    })
+
 
 # helper functions
 def format_registration_form():

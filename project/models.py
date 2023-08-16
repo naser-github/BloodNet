@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .manager import UserManager
-
+from django.conf import settings
 
 # Create your models here.
 
@@ -74,6 +74,9 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     body = models.TextField(max_length=2000)
     contact_no = models.CharField(max_length=40)
+    location = models.TextField(null=True, max_length=300)
     is_published = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, null=True)

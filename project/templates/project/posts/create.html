@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_css %}
+
+{% endblock %}
+
+{% block page_header %}
+    Create Post
+{% endblock %}
+
+{% block page_breadcrumb %}
+    {% include 'partial/base/base_breadcrumb.html' with paths=breadcrumb %}
+{% endblock %}
+
+
+
+{% block page_body %}
+    <div class="card">
+        <div class="card-body register-card-body">
+
+
+            <form method="post" action="{% url 'create-post' %}">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <div class="row">
+                    <button type="submit" class="btn btn-primary ">
+                        Post
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- /.form-box -->
+    </div>
+
+{% endblock %}
+
+
+{% block page_script %}
+
+{% endblock %}
